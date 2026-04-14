@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "Quiz": {
+      "title": "Quiz",
+      "description": "A quiz game created by a user.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the quiz."
+        },
+        "creatorId": {
+          "type": "string",
+          "description": "The UID of the user who created the quiz."
+        },
+        "questions": {
+          "type": "array",
+          "description": "List of questions in the quiz.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "options": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "correctOptionIndex": { "type": "number" }
+            },
+            "required": ["question", "options", "correctOptionIndex"]
+          }
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the quiz was created."
+        }
+      },
+      "required": ["title", "creatorId", "questions", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/quizzes/{quizId}": {
+      "schema": { "$ref": "#/entities/Quiz" },
+      "description": "Stores user-created quizzes."
+    }
+  }
+}
