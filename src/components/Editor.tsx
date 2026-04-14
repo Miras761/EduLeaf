@@ -15,6 +15,7 @@ export default function Editor({ onNavigate }: EditorProps) {
   const [questions, setQuestions] = useState<Question[]>([
     { question: '', options: ['', '', '', ''], correctOptionIndex: 0 }
   ]);
+  const [isPublic, setIsPublic] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleAddQuestion = () => {
@@ -80,6 +81,8 @@ export default function Editor({ onNavigate }: EditorProps) {
       const quizData = {
         title: title.trim(),
         creatorId: user.uid,
+        creatorName: user.displayName || user.email || 'Аноним',
+        isPublic: isPublic,
         questions: questions,
         createdAt: serverTimestamp()
       };
@@ -193,14 +196,22 @@ export default function Editor({ onNavigate }: EditorProps) {
               Добавить вопрос
             </button>
             
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="flex items-center bg-emerald-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:bg-emerald-600 hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 w-full sm:w-auto justify-center"
-            >
-              <Save className="w-5 h-5 mr-2" />
-              {isSaving ? 'Сохранение...' : 'Сохранить и играть'}
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" className="sr-only peer" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <span className="ml-3 text-sm font-medium text-gray-700">Публичная игра</span>
+              </label>
+
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex items-center bg-emerald-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:bg-emerald-600 hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 w-full sm:w-auto justify-center"
+              >
+                <Save className="w-5 h-5 mr-2" />
+                {isSaving ? 'Сохранение...' : 'Сохранить и играть'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

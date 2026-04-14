@@ -32,6 +32,14 @@
         "createdAt": {
           "type": "timestamp",
           "description": "When the quiz was created."
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Whether the quiz is visible to everyone."
+        },
+        "creatorName": {
+          "type": "string",
+          "description": "Name of the creator."
         }
       },
       "required": ["title", "creatorId", "questions", "createdAt"]
